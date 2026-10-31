@@ -1,0 +1,20 @@
+{
+  "model": "ruBERT-base + LoRA",
+  "official_test_chunks": {
+    "accuracy": 0.9172137874435782,
+    "f1_macro": 0.8507164379398455
+  },
+  "official_test_docs": {
+    "accuracy": 0.9915254237288136,
+    "f1_macro": 0.9853366530655797
+  },
+  "best_val_f1_macro": 0.7497788250678131,
+  "epochs_trained": 4.0,
+  "train_time_min": 52.04281671666734,
+  "latency_gpu_ms": 8.13434200012125,
+  "latency_cpu_ms": 84.48338499874808,
+  "adapter_mb": 9.297904968261719,
+  "base_model_mb": 680.376220703125,
+  "trainable_params": 2433088,
+  "total_params": 180789632
+}

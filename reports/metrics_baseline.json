@@ -1,0 +1,24 @@
+{
+  "model": "PyTorch MLP (char TF-IDF)",
+  "holdout_20pct": {
+    "accuracy": 0.9418104424217724,
+    "f1_macro": 0.8725954657560154
+  },
+  "best_holdout_f1_macro": 0.9036074475638702,
+  "best_holdout_epoch": 14,
+  "official_test_chunks": {
+    "accuracy": 0.9434755847353303,
+    "f1_macro": 0.8867041328067355
+  },
+  "official_test_docs": {
+    "accuracy": 0.9929378531073446,
+    "f1_macro": 0.9685278699177139
+  },
+  "train_time_min": 2.589153163332958,
+  "latency_cpu_ms": 1.9913379999343308,
+  "latency_gpu_ms": 1.3362679997226223,
+  "weights_mb": 73.34569644927979,
+  "weights_model_only_mb": 24.446044921875,
+  "vectorizer_mb": 1.5602779388427734,
+  "params": 6408384
+}

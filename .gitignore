@@ -1,0 +1,27 @@
+# Данные и промежуточные чекпоинты обучения
+data/
+reports/*.npy
+
+# Виртуальные окружения
+venv/
+.venv/
+ENV/
+
+# Кэш Python и Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# Секреты и локальные настройки
+.env
+.env.*
+!.env.example
+
+# Служебные файлы ОС и IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
