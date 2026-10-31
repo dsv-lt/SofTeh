@@ -15,7 +15,7 @@
      * `baseline` — посимвольный TF-IDF (`char` n-граммы `(2, 4)`, 50 000 признаков, без лемматизации) + полносвязная сеть `PyTorch MLP`.
 3. **Стадия 2 — Стилизованная генерация через внешний LLM API:**
    * Динамически формируется системный промпт стилизатора под найденного автора.
-   * Асинхронный клиент (`httpx.AsyncClient`) обращается к OpenAI-совместимому API **Groq Cloud** (`llama-3.1-8b-instant`) или **OpenRouter** (`meta-llama/llama-3.3-70b-instruct:free`).
+   * Асинхронный клиент (`httpx.AsyncClient`) обращается к OpenAI-совместимому API **Google AI Studio** (`gemini-3.1-flash-lite`), **Groq Cloud** (`llama-3.1-8b-instant`) или **OpenRouter** (`meta-llama/llama-3.3-70b-instruct:free`).
 
 ```mermaid
 sequenceDiagram
@@ -47,7 +47,9 @@ literary-style-assistant/
 ├── Dockerfile
 ├── requirements.txt
 ├── README.md
-├── REPORT.md                        # Аналитический отчёт и сравнение моделей
+├── REPORT.md                        # Полный технический и аналитический отчёт
+├── docs/
+│   └── TECHNICAL_DOCUMENTATION.md   # Полная техническая документация системы
 │
 ├── data/                            # Игнорируется Git (.gitignore)
 │   ├── raw/                         # train_dataset.json, validation_dataset.json, test_dataset.json
@@ -77,8 +79,11 @@ literary-style-assistant/
 │   ├── llm_client.py                # Асинхронный клиент Groq / OpenRouter с ретраями
 │   └── app.py                       # FastAPI приложение, lifespan, /health, /classify, /ask
 │
-└── tests/
-    └── test_service.py              # Модульные и интеграционные тесты сервиса
+└── tests/                           # Пакет модульных, интеграционных и живых E2E-тестов
+    ├── test_preprocessing.py
+    ├── test_config_and_llm.py
+    ├── test_classifiers.py
+    └── test_api_and_e2e.py
 ```
 
 ---
@@ -98,7 +103,8 @@ uv pip install --python .venv\Scripts\python.exe -r requirements.txt
 
 ### Безопасная настройка API-ключа внешней LLM
 
-Ключ **никогда** не хранится в коде или Docker-образе. Поддерживаются ключи:
+Ключ **никогда** не хранится в коде или Docker-образе. Поддерживаются ключи (автоопределение при `LLM_PROVIDER=auto`):
+* **Google AI Studio** (`AQ....` или `AIza...`, консоль: https://aistudio.google.com/apikey) — автоматически выбирается `gemini-3.1-flash-lite` с fallback-цепочкой;
 * **Groq Cloud** (`gsk_...`, консоль: https://console.groq.com/keys) — автоматически выбирается модель `llama-3.1-8b-instant`;
 * **OpenRouter** (`sk-or-...`, консоль: https://openrouter.ai/keys) — автоматически выбирается бесплатная модель `meta-llama/llama-3.3-70b-instruct:free`.
 
@@ -184,8 +190,8 @@ curl -X POST http://localhost:8000/classify \
 ## 6. Проверка тестов и воспроизведение экспериментов
 
 ```powershell
-# Запуск модульных и API-тестов
-.venv\Scripts\python.exe -m unittest discover -s tests -v
+# Запуск всех тестов с расчётом покрытия кода src/
+.venv\Scripts\pytest.exe tests -v --cov=src --cov-report=term-missing
 ```
 
 Исследовательский конвейер полностью воспроизводится последовательным выполнением ноутбуков в директории `notebooks/`:

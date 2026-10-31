@@ -9,5 +9,6 @@ data/
 .env.*
 notebooks/
 reports/
+docs/
 tests/
 *.md

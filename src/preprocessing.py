@@ -28,10 +28,10 @@ _LITERAL_ESCAPES = (
     ('\\"', '"'),
     ("\\'", "'"),
 )
-_SPACES_RE = re.compile(r"[ \t\u00a0\u2009\u200b\ufeff]+")
+_SPACES_RE = re.compile(r"[ \t\u00a0\u2009]+")
 _MULTI_NL_RE = re.compile(r"\n{2,}")
 _WS_RE = re.compile(r"\s+")
-_CONTROL_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
+_CONTROL_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\u200b\ufeff]")
 
 
 def extract_author(user_message: str) -> str | None:
