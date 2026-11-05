@@ -49,6 +49,8 @@ literary-style-assistant/
 ├── README.md
 ├── REPORT.md                        # Полный технический и аналитический отчёт
 ├── docs/
+│   ├── USER_GUIDE.md                # Простое объяснение проекта и подробная инструкция к пользованию
+│   ├── CODEBASE_ARCHITECTURE.md     # Полный разбор всех файлов кода, принципов работы и взаимосвязей
 │   └── TECHNICAL_DOCUMENTATION.md   # Полная техническая документация системы
 │
 ├── data/                            # Игнорируется Git (.gitignore)
