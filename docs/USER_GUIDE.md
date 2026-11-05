@@ -30,7 +30,7 @@ flowchart LR
 * **Чистота генерации.** Когда большая нейросеть заранее получает точное имя автора в скрытом системном задании, она не тратит силы на догадки и сразу концентрируется на художественной имитации стиля.
 
 > [!NOTE]
-> Полный список всех **64 поддерживаемых авторов** хранится в файле [labels.json](file:///C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant/models/lora_classifier/labels.json) — ни один автор из исходного датасета не был удалён.
+> Полный список всех **64 поддерживаемых авторов** хранится в файле [labels.json](../models/lora_classifier/labels.json) — ни один автор из исходного датасета не был удалён.
 
 ---
 
@@ -45,7 +45,7 @@ flowchart LR
 
 #### Вариант 2: `baseline` (`pytorch-mlp-char-tfidf`) — сверхбыстрый классический нейросетевой вариант
 * **Как работает простыми словами:** Эта модель вообще не смотрит на «слова целиком» и не приводит их к словарной форме (не делает лемматизацию). Вместо этого она скользит по тексту окошком в **2, 3 и 4 символа подряд** (буквы + пробелы + знаки препинания) и считает частоту 50 000 самых характерных комбинаций: например, `", а "`, `" — "`, `"-с,"`, `"ться"`, `"ость"`.
-* **Почему нельзя приводить слова к начальной форме?** Если превратить *«милостивый государь-с, позвольте-ка...»* в сухой набор словарных основ *«милостивый государь позволить»*, исчезнут частицы *«-с»*, *«-ка»*, тире, многоточия и любимые падежные окончания писателя — то есть сотрётся сам авторский стиль! Эксперименты в ноутбуке [02_tfidf_experiments.ipynb](file:///C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant/notebooks/02_tfidf_experiments.ipynb) доказали это математически: посимвольный анализ работает в десятки раз быстрее и даёт гораздо более высокую точность.
+* **Почему нельзя приводить слова к начальной форме?** Если превратить *«милостивый государь-с, позвольте-ка...»* в сухой набор словарных основ *«милостивый государь позволить»*, исчезнут частицы *«-с»*, *«-ка»*, тире, многоточия и любимые падежные окончания писателя — то есть сотрётся сам авторский стиль! Эксперименты в ноутбуке [02_tfidf_experiments.ipynb](../notebooks/02_tfidf_experiments.ipynb) доказали это математически: посимвольный анализ работает в десятки раз быстрее и даёт гораздо более высокую точность.
 * **В чём сильна:** Молниеносная скорость (**~1.3 мс** на видеокарте и **~2 мс** даже на обычном процессоре) и отличная цепкость к авторской пунктуации на коротких абзацах (**94.35%** точности на фрагментах по 1000 символов).
 
 | Характеристика | `lora` (`ruBERT-base + LoRA`) — по умолчанию | `baseline` (`char TF-IDF + PyTorch MLP`) |
@@ -69,7 +69,7 @@ flowchart LR
 
 ### 1.5. Что содержит проект? Простая карта всех папок
 
-Весь проект находится в папке `C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant`:
+Весь проект находится в папке `literary-style-assistant`:
 
 | Папка / файл | Что там лежит простыми словами | Нужна ли для запуска сервера? |
 | :--- | :--- | :--- |
@@ -101,7 +101,7 @@ flowchart LR
 Откройте терминал **PowerShell** и перейдите в папку проекта:
 
 ```powershell
-cd C:\Users\Vladislav\.gemini\antigravity\scratch\literary-style-assistant
+cd literary-style-assistant
 ```
 
 Создайте виртуальное окружение и установите библиотеки (выберите один из двух вариантов):
@@ -130,7 +130,7 @@ python -m venv .venv
 2. **Groq Cloud** — получите ключ на https://console.groq.com/keys (начинается на `gsk_`). Автоматически включится `llama-3.1-8b-instant`.
 3. **OpenRouter** — получите ключ на https://openrouter.ai/keys (начинается на `sk-or-`). Автоматически включится бесплатная модель `meta-llama/llama-3.3-70b-instruct:free`.
 
-Скопируйте шаблон [.env.example](file:///C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant/.env.example) в файл `.env` в корне проекта и впишите свой ключ:
+Скопируйте шаблон [.env.example](../.env.example) в файл `.env` в корне проекта и впишите свой ключ:
 
 ```powershell
 Copy-Item .env.example .env
@@ -171,7 +171,7 @@ DEVICE=auto
 В терминале PowerShell из папки проекта выполните:
 
 ```powershell
-cd C:\Users\Vladislav\.gemini\antigravity\scratch\literary-style-assistant
+cd literary-style-assistant
 .venv\Scripts\uvicorn.exe src.app:app --host 0.0.0.0 --port 8000
 ```
 
@@ -335,10 +335,10 @@ $env:DEVICE = "cpu"
 ### Шаг 8. Как работать с исследовательскими ноутбуками (`notebooks/`)
 
 Если вы хотите посмотреть графики, изучить эксперименты или заново обучить модели на своих данных, откройте папку `notebooks/` в VS Code / Antigravity / Jupyter Lab, выберите ядро Python `.venv` и запускайте ноутбуки строго по порядку номеров:
-1. [01_eda_and_cleaning.ipynb](file:///C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant/notebooks/01_eda_and_cleaning.ipynb) — скачивает сырой датасет из Hugging Face в `data/raw/`, чистит текст, строит графики распределения и сохраняет Parquet-таблицы в `data/processed/`.
-2. [02_tfidf_experiments.ipynb](file:///C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant/notebooks/02_tfidf_experiments.ipynb) — сравнивает лемматизацию `pymorphy3` с посимвольными n-граммами, проводит перебор 36 конфигураций и сохраняет векторизатор в `models/tfidf_vectorizer.pkl`.
-3. [03_pytorch_baseline.ipynb](file:///C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant/notebooks/03_pytorch_baseline.ipynb) — обучает нейросеть `TextClassifier` на PyTorch (20 эпох) и сохраняет веса в `models/baseline_pytorch.pt`.
-4. [04_lora_finetuning.ipynb](file:///C:/Users/Vladislav/.gemini/antigravity/scratch/literary-style-assistant/notebooks/04_lora_finetuning.ipynb) — дообучает `ai-forever/ruBert-base` с адаптером LoRA и сохраняет готовый классификатор в `models/lora_classifier/`.
+1. [01_eda_and_cleaning.ipynb](../notebooks/01_eda_and_cleaning.ipynb) — скачивает сырой датасет из Hugging Face в `data/raw/`, чистит текст, строит графики распределения и сохраняет Parquet-таблицы в `data/processed/`.
+2. [02_tfidf_experiments.ipynb](../notebooks/02_tfidf_experiments.ipynb) — сравнивает лемматизацию `pymorphy3` с посимвольными n-граммами, проводит перебор 36 конфигураций и сохраняет векторизатор в `models/tfidf_vectorizer.pkl`.
+3. [03_pytorch_baseline.ipynb](../notebooks/03_pytorch_baseline.ipynb) — обучает нейросеть `TextClassifier` на PyTorch (20 эпох) и сохраняет веса в `models/baseline_pytorch.pt`.
+4. [04_lora_finetuning.ipynb](../notebooks/04_lora_finetuning.ipynb) — дообучает `ai-forever/ruBert-base` с адаптером LoRA и сохраняет готовый классификатор в `models/lora_classifier/`.
 
 ---
 

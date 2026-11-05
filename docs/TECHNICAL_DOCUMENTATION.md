@@ -282,7 +282,7 @@ sequenceDiagram
 ### 9.1. Локальный запуск (Windows PowerShell / Linux)
 
 ```powershell
-cd C:\Users\Vladislav\.gemini\antigravity\scratch\literary-style-assistant
+cd literary-style-assistant
 .venv\Scripts\uvicorn.exe src.app:app --host 0.0.0.0 --port 8000
 ```
 
